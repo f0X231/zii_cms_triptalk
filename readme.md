@@ -261,3 +261,9 @@ Note: You can find git flow detail example [here](https://danielkummer.github.io
 
 ## License
 [The MIT License (MIT)](LICENSE)
+
+## For Use Mix
+npm i --save-dev laravel-mix@latest && 
+npm i --save-dev sass-loader@latest && 
+npm i --save-dev postcss@latest && 
+npm i --save-dev webpack@latest
