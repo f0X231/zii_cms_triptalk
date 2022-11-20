@@ -11,3 +11,6 @@
 
 <!-- App CSS -->  
 <link id="theme-style" rel="stylesheet" href="/assets/css/styles.css">
+
+<!-- Javascript -->
+<script src="/assets/js/axios.min.js{{config('global.cacheversion')}}"></script>

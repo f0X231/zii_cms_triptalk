@@ -4,13 +4,13 @@
     @include('backend.includes.head')
 </head> 
 
-<body class="app app-login p-0">    	
+<body class="app app-login p-0">
     <div class="row g-0 app-auth-wrapper">
 	    <div class="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
 		    <div class="d-flex flex-column align-content-end">
 			    <div class="app-auth-body mx-auto">	
 				    <div class="app-auth-branding mb-4">
-                        <a class="app-logo" href="index.html">
+                        <a class="app-logo" href="/">
                             <img class="logo-icon me-2" src="/assets/images/app-logo.svg" alt="logo">
                         </a>
                     </div>
@@ -30,7 +30,8 @@
     
     </div><!--//row-->
 
-
+	<script src="/assets/js/axios.min.js{{config('global.cacheversion')}}"></script>
+	<script src="/assets/js/blank-{{collect(explode('/', url()->current()))->last()}}.js{{config('global.cacheversion')}}"></script> 
 </body>
 </html> 
 

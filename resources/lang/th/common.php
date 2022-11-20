@@ -12,7 +12,6 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
     'navbar'    => [
         'title'     => 'Menu',
         'nofify'    => [
@@ -34,8 +33,18 @@ return [
             'overview'  => 'Overview',
             'settings'  => 'Settings',
             'pages'     => 'Pages',
-            'nofify'    => 'Notifications'
+            'nofify'    => 'Notifications',
+            'master'    => 'Master',
+            'company'   => 'Company',
         ],
+    ],
+    'components' => [
+        'pagination'    => [
+            'first'     => 'First',
+            'end'       => 'End',
+            'previous'  => '<<',
+            'next'      => '>>'
+        ]
     ],
     'footer'    => [
         'copyright'     => 'Designed with ',
