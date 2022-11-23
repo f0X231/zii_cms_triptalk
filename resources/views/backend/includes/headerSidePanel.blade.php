@@ -65,11 +65,14 @@
                     </a>
                     <div 
                         id="submenu-2" 
-                        class="collapse submenu submenu-2 @if(str_replace(array('/company'), '', url()->current()) != url()->current()) show @endif" 
+                        class="collapse submenu submenu-2 @if(str_replace(array('/company', '/services-groups'), '', url()->current()) != url()->current()) show @endif" 
                         data-bs-parent="#menu-accordion">
                         <ul class="submenu-list list-unstyled">
                             <li class="submenu-item">
                                 <a class="submenu-link @if(strpos(url()->current(), '/company') !== false) active @endif" href="/cms/master/company">{{ __('common.sitePanel.navMenu.company') }}</a>
+                            </li>
+                            <li class="submenu-item">
+                                <a class="submenu-link @if(strpos(url()->current(), '/services-groups') !== false) active @endif" href="/cms/master/services-groups">{{ __('common.sitePanel.navMenu.sgroups') }}</a>
                             </li>
                         </ul>
                     </div>

@@ -9,25 +9,30 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 
-use App\Models\UserGroups   as UserGroups;
+use App\Models\UserGroups       as UserGroups;
+use App\Models\ServicesGroups   as SGroups;
 
 class CMSMasterController extends Controller
 {
-    private $itemPerPages = 12;
+    private $itemPerPages;
 
-    // public function __construct(Request $request) 
-    // {
+    public function __construct(Request $request) 
+    {
+        $this->itemPerPages = $this->setItemPerPages();
     //     $this->sessionUser = Session()->get('user');
     //     if(empty($this->sessionUser) || ($this->sessionUser['lavel'] <= 1)) {
     //         $request->session()->forget('user');
     //         redirect('login')->send();
     //     }
-    // }
+    }
 
-    // public function index(Request $request)
-    // {
-    // }
 
+    /*
+     * 
+     * Company (Master) - Table
+     * By zhaii231 : 2022 Nov, 21
+     * 
+     */
     public function indexCompany(Request $request)
     {
         $pageInfo = array(
@@ -70,6 +75,12 @@ class CMSMasterController extends Controller
                         ]); 
     }
 
+    /*
+     * 
+     * Company (Master) - Modify
+     * By zhaii231 : 2022 Nov, 21
+     * 
+     */
     public function modifyCompany(Request $request)
     {
         $pageInfo = array(
@@ -95,6 +106,12 @@ class CMSMasterController extends Controller
                         ]);
     }
 
+    /*
+     * 
+     * Company (Master) - Process
+     * By zhaii231 : 2022 Nov, 21
+     * 
+     */
     public function processCompany(Request $request)
     {
         $request->validate([
@@ -160,6 +177,157 @@ class CMSMasterController extends Controller
         }
 
         return Redirect::to('/cms/master/company');
+        exit;
+    }
+
+    /*
+     * 
+     * Groups of Services (Master) - Table
+     * By zhaii231 : 2022 Nov, 22
+     * 
+     */
+    public function indexSGroups(Request $request)
+    {
+        $pageInfo = array(
+            'name'          => 'masterServices',
+            'title'         => '',
+            'description'   => '',
+            'keywords'      => '',
+            'picture'       => ''
+        );
+        $page = empty($_GET['page']) ? 1 : (is_numeric($_GET['page']) ? $_GET['page'] : 1);
+        $offset = (($page - 1) < 0) ? 0 : (($page - 1) * $this->itemPerPages);
+        $countSGroups = SGroups::where([['flag_deleted', '=', 'N']])->count();
+        $pages = ceil($countSGroups/$this->itemPerPages);
+
+        if(!empty($_GET['page']) && !is_numeric($_GET['page']))
+            redirect('/cms/master/services-groups')->send();            
+
+        if(!empty($_GET['page']) && $page < 1)
+            redirect('/cms/master/services-groups?page=1')->send();
+
+        if(!empty($_GET['page']) && $page > $pages)
+            redirect('/cms/master/services-groups?page='.$pages)->send();
+
+        $getSGroups = SGroups::where([['flag_deleted', '=', 'N']])
+                                ->orderBy('updated_at', 'DESC')
+                                ->orderBy('id', 'DESC')
+                                ->skip($offset)
+                                ->take($this->itemPerPages)
+                                ->get()
+                                ->toArray();
+        foreach($getSGroups as $k => $items) {
+            $val = json_decode($items['name']);
+            $getSGroups[$k]['name_th'] = $val->th;
+            $getSGroups[$k]['name_en'] = $val->en;
+        }
+
+        return view(    'backend.pages.masterServicesGroups', 
+                        [ 
+                            'pinfo'     => $pageInfo,
+                            'sgroups'   => $getSGroups,
+                            'pages'     => $pages,
+                            'page'      => $page,
+                            'amount'    => $this->itemPerPages,
+                        ]); 
+    }
+
+    /*
+     * 
+     * Groups of Services (Master) - Modify
+     * By zhaii231 : 2022 Nov, 22
+     * 
+     */
+    public function modifySGroups(Request $request)
+    {
+        $pageInfo = array(
+            'name'          => 'masterServices',
+            'title'         => '',
+            'description'   => '',
+            'keywords'      => '',
+            'picture'       => ''
+        );
+
+        $getSGroup = [];
+        if(!empty($request->id)) {
+            $tmpSGroup = SGroups::where([['id', '=', $request->id]])->get()->toArray();
+            if(!empty($tmpSGroup[0])) {
+                $getSGroup = $tmpSGroup[0];
+                $val = json_decode($tmpSGroup[0]['name']);
+                $getSGroup['name_th']   = $val->th;
+                $getSGroup['name_en']   = $val->en;
+                $getSGroup['encryptId'] = Crypt::encryptString($request->id);
+            }
+        }
+
+        return view(    'backend.pages.masterServicesGroupsModify',
+                        [
+                            'pinfo'     => $pageInfo,
+                            'sgroup'    => $getSGroup,
+                        ]);
+    }
+
+    /*
+     * 
+     *  Groups of Services (Master) - Process
+     * By zhaii231 : 2022 Nov, 23
+     * 
+     */
+    public function processSGroups(Request $request)
+    {
+        $request->validate([
+                            'inSgroupsNameEN'   => 'required',
+                            'inSgroupsNameTH'   => 'required',
+                        ]);
+        
+        $processName    = $request->name;
+        $param          = $request->post();
+        $now            = new DateTime();
+        $acceptExt      = array('jpg', 'jpeg', 'png');
+        $icoSGroups     = NULL;
+        // upload logo company image
+        if($request->hasFile('inSGroupsLogo')) 
+        {
+            $savePath = base_path(config('global.path_base').'services');
+            $responseSaveImg = $this->uploadImg($request->inSGroupsLogo, $savePath, $acceptExt);
+            if($responseSaveImg->status == 'success')
+                $icoSGroups = $responseSaveImg->items[0];
+        }
+
+        switch($processName) {
+            case 'add':
+                $saveSGroups                = new SGroups;
+                $name                       = json_encode(array('en' => $param['inSgroupsNameEN'], 'th' => $param['inSgroupsNameTH']));
+                $saveSGroups->name          = $name;
+                $saveSGroups->description   = empty($param['inSGroupsInfo']) ? NULL : $param['inSGroupsInfo'];
+                $saveSGroups->flag_enabled  = (!empty($param['inSGroupsStatus']) && $param['inSGroupsStatus'] == 'Y') ? 'Y' : 'N';
+                $saveSGroups->flag_deleted  = (!empty($param['inSGroupsDel']) && $param['inSGroupsDel'] == 'Y') ? 'Y' : 'N';
+                $saveSGroups->updated_at    = $now->format('Y-m-d H:i:s');
+                $saveSGroups->logo          = empty($icoSGroups) ? NULL : $icoSGroups;
+
+                $saveSGroups->save();
+                break;
+            case 'edit':
+                $SGroupsId  =  Crypt::decryptString($param['inSGroupsId']);
+                $name       = json_encode(array('en' => $param['inSgroupsNameEN'], 'th' => $param['inSgroupsNameTH']));
+                $updateSGroups = array(
+                    'name'          => $name,
+                    'description'   => empty($param['inSGroupsInfo']) ? NULL : $param['inSGroupsInfo'],
+                    'flag_enabled'  => (!empty($param['inSGroupsStatus']) && $param['inSGroupsStatus'] == 'Y') ? 'Y' : 'N',
+                    'flag_deleted'  => (!empty($param['inSGroupsDel']) && $param['inSGroupsDel'] == 'Y') ? 'Y' : 'N',
+                    'created_at'    =>  $now->format('Y-m-d H:i:s'),
+                    'updated_at'    =>  $now->format('Y-m-d H:i:s')
+                );
+
+                if(!empty($icoSGroups)) {
+                    $updateSGroups['logo'] = $icoSGroups;
+                }
+
+                SGroups::where([['id', '=', is_numeric($SGroupsId)]])->update($updateSGroups);
+                break;
+        }
+
+        return Redirect::to('/cms/master/services-groups');
         exit;
     }
 

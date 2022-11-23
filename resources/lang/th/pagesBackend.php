@@ -63,6 +63,41 @@ return [
                 'err_email'         => 'โปรดกรอกอีเมลให้ถูกต้อง'
             ],
         ],
+        'sgroups'     => [
+            'index'     => [
+                'input_search'      => 'Search',
+                'btn_search'        => 'Search',
+                'btn_insert'        => 'New', 
+                'title'             => 'Company',
+                'thead_order'       => 'No.',
+                'thead_logo'        => 'Icon',
+                'thead_name_th'     => 'Name [TH]',
+                'thead_name_en'     => 'Name [EN]',
+                'thead_description' => 'Description',
+                'thead_status'      => 'Status',
+                'status_active'     => 'Active',
+                'status_inactive'   => 'Inactive',
+                'process_modify'    => 'Modify',
+            ],
+            'modify'    => [
+                'title'             => 'Settings Groups of Services',
+                'section_title'     => 'Groups of Services',
+                'section_info'      => 'Setting name of Groups of Services.',
+                'label_logo'        => 'Badge',
+                'label_name_th'     => 'ชื่อ',
+                'label_name_en'     => 'Name',
+                'label_name_ex'     => 'name',
+                'label_info'        => 'Information',
+                'label_ico'         => 'Logo',
+                'label_ico_detail'  => '**Only .png or .jpg and size is 200 x 200',
+                'label_active'      => 'Active',
+                'label_inactive'    => 'Inactive',
+                'label_delete'      => 'Delete',
+                'btn_save'          => 'Save',
+                'btn_back'          => 'Back',
+                'err_name'          => 'โปรดกรอกชื่อบริษัทให้ถูกต้อง'
+            ],
+        ],
     ],
 
 ];

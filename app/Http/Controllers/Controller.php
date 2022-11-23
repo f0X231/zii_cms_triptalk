@@ -46,4 +46,8 @@ class Controller extends BaseController
         return $result;
     }
 
+    protected function setItemPerPages() {
+        return 12;
+    }
+
 }

@@ -53,11 +53,18 @@ Route::group(['namespace' => '', 'prefix' => 'cms'], function() {
             Route::post('process/{name}',       [CMSMasterController::class, 'processCompany']);
         });
 
-        Route::group(['namespace' => 'roles', 'prefix' => 'roles'], function() {
-            Route::get('/',                 [CMSUserController::class, 'indexUserRole']);
-            Route::get('add',               [CMSUserController::class, 'modifyUserRole']);
-            Route::get('edit/{id}',         [CMSUserController::class, 'modifyUserRole']);
-            Route::post('process/{name}',   [CMSUserController::class, 'processUserRole']);
+        Route::group(['namespace' => 'services-groups', 'prefix' => 'services-groups'], function() {
+            Route::get('/',                     [CMSMasterController::class, 'indexSGroups']);
+            Route::get('add',                   [CMSMasterController::class, 'modifySGroups']);
+            Route::get('edit/{id}',             [CMSMasterController::class, 'modifySGroups']);
+            Route::post('process/{name}',       [CMSMasterController::class, 'processSGroups']);
+        });
+
+        Route::group(['namespace' => 'services', 'prefix' => 'services'], function() {
+            Route::get('/',                     [CMSMasterController::class, 'indexServices']);
+            Route::get('add',                   [CMSMasterController::class, 'modifyServices']);
+            Route::get('edit/{id}',             [CMSMasterController::class, 'modifyServices']);
+            Route::post('process/{name}',       [CMSMasterController::class, 'processService']);
         });
     });
 
@@ -66,6 +73,13 @@ Route::group(['namespace' => '', 'prefix' => 'cms'], function() {
         Route::get('add',                   [CMSUserController::class, 'modifyUser']);
         Route::get('edit/{id}',             [CMSUserController::class, 'modifyUser']);
         Route::post('process/{name}',       [CMSUserController::class, 'processUser']);
+
+        Route::group(['namespace' => 'roles', 'prefix' => 'roles'], function() {
+            Route::get('/',                 [CMSUserController::class, 'indexUserRole']);
+            Route::get('add',               [CMSUserController::class, 'modifyUserRole']);
+            Route::get('edit/{id}',         [CMSUserController::class, 'modifyUserRole']);
+            Route::post('process/{name}',   [CMSUserController::class, 'processUserRole']);
+        });
     });
 
 });

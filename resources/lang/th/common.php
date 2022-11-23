@@ -36,6 +36,7 @@ return [
             'nofify'    => 'Notifications',
             'master'    => 'Master',
             'company'   => 'Company',
+            'sgroups'   => 'Groupss of Service',
         ],
     ],
     'components' => [

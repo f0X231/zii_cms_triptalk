@@ -10,8 +10,8 @@ class RoleUsers extends Model
 {
     use HasFactory;
 
-    protected $table = 'role';
+    protected $table = 'role_users';
     protected $primaryKey = 'id';
-    protected $fillable = ['name']; /* The attributes that are mass assignable. @var array<int, string> */
+    protected $fillable = ['user_id', 'role_id']; /* The attributes that are mass assignable. @var array<int, string> */
 
 }
