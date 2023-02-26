@@ -114,6 +114,28 @@
                                 <small><span class="text-danger d-none" id="errEmail">{{ __('pagesBackend.master.company.modify.err_email') }}</span></small>
                             </div>
                             <div class="mb-3">
+                                <label for="inCompanyTaxId" class="form-label">{{ __('pagesBackend.master.company.modify.label_tax') }}</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="inCompanyTaxId" 
+                                    name="inCompanyTaxId" 
+                                    placeholder="{{ __('pagesBackend.master.company.modify.label_tax_ex') }}" 
+                                    value="{{ empty($company['tax_no']) ? '' : $company['tax_no'] }}" 
+                                    maxlength="25" 
+                                    onkeypress="return suppressNonNumericInput(event)"
+                                />
+                                <small><span class="text-danger d-none" id="errTaxId">{{ __('pagesBackend.master.company.modify.err_tax_id') }}</span></small>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inCompanyAddr" class="form-label">{{ __('pagesBackend.master.company.modify.label_addr') }}</label>
+                                <textarea 
+                                    class="form-control" 
+                                    id="inCompanyAddr" 
+                                    name="inCompanyAddr">{{ empty($company['address']) ? '' : $company['address'] }}</textarea>
+                                <small><span class="text-danger d-none" id="errAddr">{{ __('pagesBackend.master.company.modify.err_addr') }}</span></small>
+                            </div>
+                            <div class="mb-3">
                                 <label for="inCompanyInfo" class="form-label">{{ __('pagesBackend.master.company.modify.label_info') }}</label>
                                 <textarea 
                                     class="form-control" 

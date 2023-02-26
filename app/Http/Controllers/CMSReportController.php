@@ -12,31 +12,26 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\UserGroups       as UserGroups;
 use App\Models\ServicesGroups   as SGroups;
 
-class CMSMasterController extends Controller
+class CMSReportController extends Controller
 {
     private $itemPerPages;
 
     public function __construct(Request $request) 
     {
         $this->itemPerPages = $this->setItemPerPages();
-    //     $this->sessionUser = Session()->get('user');
-    //     if(empty($this->sessionUser) || ($this->sessionUser['lavel'] <= 1)) {
-    //         $request->session()->forget('user');
-    //         redirect('login')->send();
-    //     }
     }
 
 
     /*
      * 
-     * Company (Master) - Table
-     * By zhaii231 : 2022 Nov, 21
+     * Purchase Order (Report) - Table
+     * By zhaii231 : 2022 Dec, 8
      * 
      */
-    public function indexCompany(Request $request)
+    public function indexReportPO(Request $request)
     {
         $pageInfo = array(
-            'name'          => 'masterCompany',
+            'name'          => 'reportPR',
             'title'         => '',
             'description'   => '',
             'keywords'      => '',
@@ -110,7 +105,6 @@ class CMSMasterController extends Controller
      * 
      * Company (Master) - Process
      * By zhaii231 : 2022 Nov, 21
-     * Updated By zhaii231: 2022 Dec, 8
      * 
      */
     public function processCompany(Request $request)
@@ -119,8 +113,6 @@ class CMSMasterController extends Controller
                             'inCompanyName'     => 'required',
                             'inCompanyPhone'    => 'required',
                             'inCompanyMail'     => 'required',
-                            'inCompanyTaxId'    => 'required',
-                            'inCompanyAddr'     => 'required',
                         ]);
         
         $processName    = $request->name;
@@ -150,8 +142,6 @@ class CMSMasterController extends Controller
                 $saveUGroups->name          = empty($param['inCompanyName']) ? NULL : $param['inCompanyName'];
                 $saveUGroups->phone         = empty($param['inCompanyPhone']) ? NULL : $param['inCompanyPhone'];
                 $saveUGroups->email         = empty($param['inCompanyMail']) ? NULL : $param['inCompanyMail'];
-                $saveUGroups->tax_no        = empty($param['inCompanyTaxId']) ? NULL : $param['inCompanyTaxId'];
-                $saveUGroups->address       = empty($param['inCompanyAddr']) ? NULL : $param['inCompanyAddr'];
                 $saveUGroups->description   = empty($param['inCompanyInfo']) ? NULL : $param['inCompanyInfo'];
                 $saveUGroups->flag_enabled  = (!empty($param['inCompanyStatus']) && $param['inCompanyStatus'] == 'Y') ? 'Y' : 'N';
                 $saveUGroups->flag_deleted  = (!empty($param['inCompanyDel']) && $param['inCompanyDel'] == 'Y') ? 'Y' : 'N';
@@ -166,8 +156,6 @@ class CMSMasterController extends Controller
                     'name'          => empty($param['inCompanyName']) ? NULL : $param['inCompanyName'],
                     'phone'         => empty($param['inCompanyPhone']) ? NULL : $param['inCompanyPhone'],
                     'email'         => empty($param['inCompanyMail']) ? NULL : $param['inCompanyMail'],
-                    'tax_no'        => empty($param['inCompanyTaxId']) ? NULL : $param['inCompanyTaxId'],
-                    'address'       => empty($param['inCompanyAddr']) ? NULL : $param['inCompanyAddr'],
                     'description'   => empty($param['inCompanyInfo']) ? NULL : $param['inCompanyInfo'],
                     'flag_enabled'  => (!empty($param['inCompanyStatus']) && $param['inCompanyStatus'] == 'Y') ? 'Y' : 'N',
                     'flag_deleted'  => (!empty($param['inCompanyDel']) && $param['inCompanyDel'] == 'Y') ? 'Y' : 'N',

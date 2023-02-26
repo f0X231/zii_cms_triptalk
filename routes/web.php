@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 // BackEnd
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\CMSDashboardController;
+use App\Http\Controllers\CMSToolsController;
+use App\Http\Controllers\CMSReportController;
 use App\Http\Controllers\CMSMasterController;
 use App\Http\Controllers\CMSUserController;
 
@@ -44,6 +46,25 @@ Route::group(['namespace' => '', 'prefix' => 'cms'], function() {
     Route::get('notifications',     [CMSDashboardController::class, 'notifications']);
     Route::get('settings',          [CMSDashboardController::class, 'settings']);
     Route::get('profile',           [CMSUserController::class, 'profileUser']);
+
+    Route::group(['namespace' => 'tools', 'prefix' => 'tools'], function() {
+        Route::group(['namespace' => 'banner', 'prefix' => 'banner'], function() {
+            Route::get('/',                     [CMSToolsController::class, 'indexBanner']);
+            Route::get('add',                   [CMSToolsController::class, 'modifyBanner']);
+            Route::get('edit/{id}',             [CMSToolsController::class, 'modifyBanner']);
+            Route::post('process/{name}',       [CMSToolsController::class, 'processBanner']);
+        });
+    });
+
+    Route::group(['namespace' => 'report', 'prefix' => 'report'], function() {
+        Route::group(['namespace' => 'po', 'prefix' => 'po'], function() {
+            Route::get('/',                     [CMSReportController::class, 'indexReportPO']);
+            Route::get('add',                   [CMSReportController::class, 'modifyReportPO']);
+            Route::get('edit/{id}',             [CMSReportController::class, 'modifyReportPO']);
+            Route::post('process/{name}',       [CMSReportController::class, 'processReportPO']);
+        });
+
+    });
     
     Route::group(['namespace' => 'master', 'prefix' => 'master'], function() {
         Route::group(['namespace' => 'company', 'prefix' => 'company'], function() {

@@ -50,6 +50,10 @@ return [
                 'label_phone_ex'    => '0x-xxxx-xxxx',
                 'label_email'       => 'Email',
                 'label_email_ex'    => 'contactus@companywebsite.com',
+                'label_tax'         => 'Tax ID',
+                'label_tax_ex'      => 'xxxxxxxxxxxxx',
+                'label_addr'        => 'Address',
+                'label_addr_ex'     => '1234 NW Bobcat Lane, St. Robert, MO 65584-5678.',
                 'label_info'        => 'Information',
                 'label_ico'         => 'Logo',
                 'label_ico_detail'  => '**Only .png or .jpg and size is 200 x 200',
@@ -60,7 +64,9 @@ return [
                 'btn_back'          => 'Back',
                 'err_name'          => 'โปรดกรอกชื่อบริษัทให้ถูกต้อง',
                 'err_phone'         => 'โปรดกรอกเบอร์ติดต่อให้ถูกต้อง',
-                'err_email'         => 'โปรดกรอกอีเมลให้ถูกต้อง'
+                'err_email'         => 'โปรดกรอกอีเมลให้ถูกต้อง',
+                'err_tax_id'        => 'โปรดกรอกเลขประจำตัวผู้เสียภาษีให้ถูกต้อง',
+                'err_addr'          => 'โปรดกรอกที่อยู่ให้ถูกต้อง'
             ],
         ],
         'sgroups'     => [

@@ -9,6 +9,14 @@ const showStatus = (val) => {
         val.value = 'N';
     }
 }
+const suppressNonNumericInput = (evt) => {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
 
 const validation = () => {
     let errNum = 0;
@@ -20,7 +28,8 @@ const validation = () => {
     let inName  = document.getElementById("inCompanyName").value; 
     let inPhone = document.getElementById("inCompanyPhone").value; 
     let inEmail = document.getElementById("inCompanyMail").value; 
-
+    let inTaxId = document.getElementById("inCompanyTaxId").value; 
+    let inAddr  = document.getElementById("inCompanyAddr").value; 
 
     if (inName == "" || inName.length< 3 || regxTestAZ09.test(inName) || regxTestOnlyDigits.test(inName)) {
         document.getElementById("errName").classList.remove("d-none");
@@ -34,6 +43,16 @@ const validation = () => {
 
     if (inEmail == "" || !regxTestEmail.test(inEmail)) {
         document.getElementById("errEmail").classList.remove("d-none");
+        errNum += 1;
+    }
+
+    if (inTaxId == "" || inTaxId.length < 11 || isNaN(inTaxId)) {
+        document.getElementById("errTaxId").classList.remove("d-none");
+        errNum += 1;
+    }
+
+    if (inAddr == "" || inAddr.length < 8) {
+        document.getElementById("errAddr").classList.remove("d-none");
         errNum += 1;
     }
 
